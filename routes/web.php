@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'pokedexController@getPokedexData');
 
-Route::get('/home', function () {
-    return view('welcome');
-});
+Route::get('/updatePokedex', 'pokedexController@update');
+
+
+// Route::get('/home', function () {
+//     $all = DB::table('trade_history')
+//     ->get();
+//     dd($all);
+//     // return view('welcome');
+// });
