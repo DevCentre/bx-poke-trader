@@ -40,15 +40,19 @@ function AddMoreContent() {
 
           $(content).insertBefore($('#moreContent'));
       });
-
+      $('.loadingContent').hide();
     });
     pageOffset=pageOffset+12;
+
 }
 
 
 
 $(window).scroll(function(){
-     if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-          AddMoreContent();
-     }
+   if($(window).scrollTop() == $(document).height() - $(window).height()){
+      $('.loadingContent').show();
+      setTimeout(function(){
+        AddMoreContent();
+      },2000);
+   }
 });

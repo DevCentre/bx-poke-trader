@@ -63,6 +63,7 @@
                   </div>
                 @endforeach
                 <div id="moreContent"></div>
+                <div class='loadingContent'></div>
             </div>
         </div>
     </div>
