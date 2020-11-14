@@ -7,6 +7,7 @@ use App\Models\pokemon;
 use DB;
 use File;
 use Image;
+use Storage;
 
 
 class pokedexController extends Controller
@@ -70,13 +71,13 @@ class pokedexController extends Controller
       // $this->updateTypes();
       // $this->updatePokemons();
       $this->updateTypesRelation();
+      $this->updateJSON();
 
       dd('success');
 
     }
 
-    public function getPokedexData(){
-
+    function updateJSON(){
       $getPokemons = DB::table('pokemon')
       ->select('id','poke_name','pokeURL')
       ->get();
@@ -98,7 +99,41 @@ class pokedexController extends Controller
           $pokemon->types = $typesArr;
       }
 
-      // dd($getPokemons);
+
+      // return json_encode($getPokemons->toJson());
+      Storage::put('pokedex.json', $getPokemons);
+
+    }
+
+
+    public function getPokedexData(){
+      $getPokemons = DB::table('pokemon')
+      ->select('id','poke_name','pokeURL')
+      ->take(10)
+      ->get();
+
+      $qntPokemon = count($getPokemons);
+
+      foreach($getPokemons as $pokemon){
+          $typesArr=array();
+          $types = DB::table('pokemon_has_type as PHT')
+          ->select('PT.description')
+          ->join('poke_type as PT','PT.id','PHT.type_id')
+          ->where('PHT.pokemon_id',$pokemon->id)
+          ->groupBy('PT.description')
+          ->get();
+          foreach($types as $type){
+            array_push($typesArr,$type->description);
+          }
+          $pokemon->types = $typesArr;
+      }
+
+
+      // return json_encode($getPokemons->toJson());
+      // dd(Storage::put('pokedex.json', $getPokemons));
+      // $this->updateJSON();
+
+      // dd();
 
       return view('pokedex',compact('getPokemons','qntPokemon'));
     }

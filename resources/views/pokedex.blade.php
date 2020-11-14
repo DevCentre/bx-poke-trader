@@ -33,7 +33,7 @@
                 <h1>Pokédex <small class="pull-right">Mostrando <span class="badge">{{$qntPokemon}}</span> Pokémons</small></h1>
             </div>
             <div class='row' id='lista-pokemon'>
-                @foreach($getPokemons as $pokemon)
+                @foreach($getPokemons  as $pokemon)
                   <div class="col-lg-3">
                       <div class="pokemon panel panel-primary">
                           <div class="panel-heading">
