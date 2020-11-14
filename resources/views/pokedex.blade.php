@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pokédex</title>
-    <link rel="stylesheet" href="{{ URL::to('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::to('css/bootstrap-theme.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::to('css/main.css') }}">
+    <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/bootstrap-theme.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/main.css')}}">
 </head>
 
 <body>
