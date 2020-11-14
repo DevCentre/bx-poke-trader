@@ -109,10 +109,8 @@ class pokedexController extends Controller
     public function getPokedexData(){
       $getPokemons = DB::table('pokemon')
       ->select('id','poke_name','pokeURL')
-      ->take(10)
+      ->take(12)
       ->get();
-
-      $qntPokemon = count($getPokemons);
 
       foreach($getPokemons as $pokemon){
           $typesArr=array();
@@ -128,7 +126,7 @@ class pokedexController extends Controller
           $pokemon->types = $typesArr;
       }
 
-
+      $qntPokemon = pokemon::count();
       // return json_encode($getPokemons->toJson());
       // dd(Storage::put('pokedex.json', $getPokemons));
       // $this->updateJSON();
@@ -137,5 +135,30 @@ class pokedexController extends Controller
 
       return view('pokedex',compact('getPokemons','qntPokemon'));
     }
+
+    public function getIncrementalData($offset){
+      $getPokemons = DB::table('pokemon')
+      ->select('id','poke_name','pokeURL')
+      ->skip($offset)
+      ->take(12)
+      ->get();
+
+      foreach($getPokemons as $pokemon){
+          $typesArr=array();
+          $types = DB::table('pokemon_has_type as PHT')
+          ->select('PT.description')
+          ->join('poke_type as PT','PT.id','PHT.type_id')
+          ->where('PHT.pokemon_id',$pokemon->id)
+          ->groupBy('PT.description')
+          ->get();
+          foreach($types as $type){
+            array_push($typesArr,$type->description);
+          }
+          $pokemon->types = $typesArr;
+      }
+
+      return response()->json($getPokemons);
+    }
+
 
 }

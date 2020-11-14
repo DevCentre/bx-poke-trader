@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'pokedexController@getPokedexData');
 
+
 Route::get('/updatePokedex', 'pokedexController@update');
+
+Route::get('/getDataPokedex/{pageOffset}', 'pokedexController@getIncrementalData');
 
 
 // Route::get('/home', function () {

@@ -1,47 +1,54 @@
-// var pokemon = '<div class="row">' +
-var pokemon ='<div class="col-lg-3">' +
-              '<div class="pokemon panel panel-primary">' +
-                '<div class="panel-heading">' +
-                  '<h1>' +
-                    '__nombre__' +
-                    '<small>Seed Pokémon</small>' +
-                    '<span class="label label-primary pull-right">#101</span>' +
-                  '</h1>' +
-                '</div>' +
-                '<div class="panel-body">' +
-                  '<a href="/pokemon/bulbasaur">' +
-                    '<img class="avatar center-block" src="img/pokemons/__nombre_min__.jpg">' +
-                  '</a>' +
-                '</div>' +
-                '<div class="panel-footer">' +
-                  '<div class="text-center">' +
-                    '<a href="/grass">' +
-                      '<span class="label type type-grass">' +
-                        'Grass' +
-                      '</span>' +
-                    '</a>' +
-                    '<a href="/poison">' +
-                      '<span class="label type type-poison">' +
-                        'Poison' +
-                      '</span>' +
-                    '</a>' +
-                  '</div>' +
-                '</div>' +
-              '</div>' +
-            '</div>'
-        // '</div>'
+$(document).ready(function() {
+    pageOffset = 12;
+});
+
+function AddMoreContent() {
+    $.get('/getDataPokedex/'+pageOffset, function(data) {
+
+      console.log(data);
+      $(data).each(function(i){
+        pokeName = data[i].poke_name;
+        pokeNumber = (data[i].pokeURL).split('/')[6];
+        content =
+        `<div class="col-lg-3">
+              <div class="pokemon panel panel-primary">
+                  <div class="panel-heading">
+                      <h1>
+                          ` + pokeName + `
+                          <span class="label label-primary pull-right"># ` + pokeNumber + ` </span>
+                      </h1>
+                  </div>
+                  <div class="panel-body">
+                      <a >
+                          <img class="avatar center-block" src="img/pokemons/`+pokeName+`.png">
+                      </a>
+                  </div>
+                  <div class="panel-footer">
+                      <div class="text-center">`;
+                        $(data[i].types).each(function(j){
+                          content += `<a>
+                                        <span class="label type type-`+data[i][j]+`">
+                                            `+data[i][j]+`
+                                        </span>
+                                      </a>`;
+                        });
+
+        content += `</div>
+                  </div>
+              </div>
+          </div>`;
+
+          $(content).insertBefore($('#moreContent'));
+      });
+
+    });
+    pageOffset=pageOffset+12;
+}
 
 
 
-
-// $(document).ready(function() {
-// 	$.get("pokemon.json", function(data) {
-//     $(data).each(function(i){
-//       $("#lista-pokemon").append(
-// 				pokemon
-// 				.replace('__nombre__', data[i].name)
-// 				.replace('__nombre_min__', data[i].name.toLowerCase())
-// 			)
-//     });
-// 	})
-// })
+$(window).scroll(function(){
+     if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+          AddMoreContent();
+     }
+});
