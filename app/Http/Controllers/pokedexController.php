@@ -107,31 +107,9 @@ class pokedexController extends Controller
 
 
     public function getPokedexData(){
-      $getPokemons = DB::table('pokemon')
-      ->select('id','poke_name','pokeURL')
-      ->take(12)
-      ->get();
-
-      foreach($getPokemons as $pokemon){
-          $typesArr=array();
-          $types = DB::table('pokemon_has_type as PHT')
-          ->select('PT.description')
-          ->join('poke_type as PT','PT.id','PHT.type_id')
-          ->where('PHT.pokemon_id',$pokemon->id)
-          ->groupBy('PT.description')
-          ->get();
-          foreach($types as $type){
-            array_push($typesArr,$type->description);
-          }
-          $pokemon->types = $typesArr;
-      }
-
+      $getPokemons = json_decode($this->getIncrementalData(12)->content());
+      // dd($getPokemons->content());
       $qntPokemon = pokemon::count();
-      // return json_encode($getPokemons->toJson());
-      // dd(Storage::put('pokedex.json', $getPokemons));
-      // $this->updateJSON();
-
-      // dd();
 
       return view('pokedex',compact('getPokemons','qntPokemon'));
     }

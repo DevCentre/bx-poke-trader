@@ -2,6 +2,7 @@ $(document).ready(function() {
     pageOffset = 12;
 });
 
+ajaxLoaded = true;
 function AddMoreContent() {
     $.get('/getDataPokedex/'+pageOffset, function(data) {
 
@@ -40,6 +41,7 @@ function AddMoreContent() {
 
           $(content).insertBefore($('#moreContent'));
       });
+      ajaxLoaded==true
       $('.loadingContent').hide();
     });
     pageOffset=pageOffset+12;
@@ -47,12 +49,12 @@ function AddMoreContent() {
 }
 
 
-
 $(window).scroll(function(){
-   if($(window).scrollTop() == $(document).height() - $(window).height()){
-      $('.loadingContent').show();
-      setTimeout(function(){
-        AddMoreContent();
-      },2000);
-   }
+  if($(window).scrollTop() == $(document).height() - $(window).height() && ajaxLoaded==true){
+      ajaxLoaded==false
+     $('.loadingContent').show();
+     // setTimeout(function(){
+       AddMoreContent();
+     // },2000);
+  }
 });
