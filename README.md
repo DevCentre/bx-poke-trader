@@ -1,4 +1,4 @@
-## <h2 align="center">Poke Trader</h2>
+## <h2 align="center">![Poke Trader](https://raw.githubusercontent.com/DevCentre/bx-poke-trader/master/public/img/PokeTrade.png)</h2>
 
 
 ## About Poke Trader
