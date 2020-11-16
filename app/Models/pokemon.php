@@ -12,7 +12,9 @@ class pokemon extends Model
 
     protected $fillable = [
         'poke_name',
-        'pokeURL'
+        'pokeURL',
+        'base_experience',
+        'HP'
     ];
 
     protected $table='pokemon';

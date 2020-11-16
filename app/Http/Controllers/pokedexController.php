@@ -14,16 +14,33 @@ class pokedexController extends Controller
 {
 
     function updatePokemons(){
-      pokemon::truncate();
-      $pokemonsURL = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=2000";
-      $pokeJson = json_decode(file_get_contents($pokemonsURL), true);
 
-      foreach($pokeJson['results'] as $pokeJson){
-        $pokemon = new pokemon;
-        $pokemon->poke_name = $pokeJson['name'];
-        $pokemon->pokeURL = $pokeJson['url'];
-        $pokemon->save();
+      $countPokeURL = "https://pokeapi.co/api/v2/pokemon";
+      $countPoke = json_decode(file_get_contents($countPokeURL), true)['count'];
+
+      $qntPokemon = pokemon::count();
+
+      if($qntPokemon!=$countPoke){//Check if new pokemons were added OR removed (??)
+
+        pokemon::truncate();
+        $pokemonsURL = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=".$countPoke;//getALL Pokemons
+        $pokeJson = json_decode(file_get_contents($pokemonsURL), true);
+
+        foreach($pokeJson['results'] as $poke){
+          $pokeURL = $poke['url'];
+          $pokemon = new pokemon;
+          $pokemon->poke_name = $poke['name'];
+          $pokemon->pokeURL = $poke['url'];
+          $pokeStatsJSON = json_decode(file_get_contents($pokeURL), true);// get XP and HP
+          $pokemon->base_experience = $pokeStatsJSON['base_experience'];//XP
+          if(count($pokeStatsJSON['stats'])>0){
+            $pokemon->HP = $pokeStatsJSON['stats'][0]['base_stat'];//HP
+          }
+          $pokemon->save();
+        }
       }
+
+
     }
 
     function updateTypes(){
@@ -69,54 +86,23 @@ class pokedexController extends Controller
     public function update(){
 
       // $this->updateTypes();
-      // $this->updatePokemons();
-      $this->updateTypesRelation();
-      $this->updateJSON();
+      $this->updatePokemons();
+      // $this->updateTypesRelation();
 
-      dd('success');
-
-    }
-
-    function updateJSON(){
-      $getPokemons = DB::table('pokemon')
-      ->select('id','poke_name','pokeURL')
-      ->get();
-      // ->take(200);
-
-      $qntPokemon = count($getPokemons);
-
-      foreach($getPokemons as $pokemon){
-          $typesArr=array();
-          $types = DB::table('pokemon_has_type as PHT')
-          ->select('PT.description')
-          ->join('poke_type as PT','PT.id','PHT.type_id')
-          ->where('PHT.pokemon_id',$pokemon->id)
-          ->groupBy('PT.description')
-          ->get();
-          foreach($types as $type){
-            array_push($typesArr,$type->description);
-          }
-          $pokemon->types = $typesArr;
-      }
-
-
-      // return json_encode($getPokemons->toJson());
-      Storage::put('pokedex.json', $getPokemons);
+      return response()->json('success');
 
     }
-
 
     public function getPokedexData(){
-      $getPokemons = json_decode($this->getIncrementalData(12)->content());
-      // dd($getPokemons->content());
+      $getPokemons = json_decode($this->getIncrementalData(0,0)->content());
       $qntPokemon = pokemon::count();
 
       return view('pokedex',compact('getPokemons','qntPokemon'));
     }
 
-    public function getIncrementalData($offset){
+    public function getIncrementalData($offset,$qSearch){
       $getPokemons = DB::table('pokemon')
-      ->select('id','poke_name','pokeURL')
+      ->select('id','poke_name','pokeURL','HP','base_experience')
       ->skip($offset)
       ->take(12)
       ->get();
@@ -136,6 +122,43 @@ class pokedexController extends Controller
       }
 
       return response()->json($getPokemons);
+    }
+
+    public function save(Request $request){
+      $fair = $request->fair;
+
+      $ashArr=[];
+      foreach($request->ashList as $pokemons){
+        array_push($ashArr,$pokemons['pokeName']);
+      }
+      $teamRocketArr=[];
+      foreach($request->teamRocketList as $pokemons){
+        array_push($teamRocketArr,$pokemons['pokeName']);
+      }
+
+      $ashList = implode(',',$ashArr);
+      $teamRocketList = implode(',',$teamRocketArr);
+
+      DB::table('trade_history')
+      ->insert([
+        'ashPokemons' => $ashList,
+        'teamRocketPokemons' => $teamRocketList,
+        'fair' =>$fair
+      ]);
+
+
+      return response()->json('success');
+
+    }
+
+    public function getTradeHistory(){
+
+      $historyData = DB::table('trade_history')
+      ->select('id','ashPokemons','teamRocketPokemons','fair','created_at')
+      ->get();
+
+      return response()->json($historyData);
+
     }
 
 

@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'pokedexController@getPokedexData');
 
-
 Route::get('/updatePokedex', 'pokedexController@update');
 
-Route::get('/getDataPokedex/{pageOffset}', 'pokedexController@getIncrementalData');
+Route::post('/saveTrade', 'pokedexController@save');
 
+Route::get('/tradeHistory', 'pokedexController@getTradeHistory');
 
-// Route::get('/home', function () {
-//     $all = DB::table('trade_history')
-//     ->get();
-//     dd($all);
-//     // return view('welcome');
-// });
+Route::get('/getDataPokedex/{pageOffset}/{qSearch}', 'pokedexController@getIncrementalData');

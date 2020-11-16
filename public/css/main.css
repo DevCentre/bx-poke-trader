@@ -1,5 +1,18 @@
+
+@font-face {
+    font-family: 'pokemon';
+    src: url('/fonts/pokemon/PokemonSolidNormal400.ttf');
+}
+
 body {
   padding-top: 50px;
+}
+#tradeResult{
+  font-family: 'pokemon';
+  font-size: 1.5em;
+}
+.navbar{
+  border-radius:0px;
 }
 
 .navbar-brand {
@@ -7,7 +20,7 @@ body {
 }
 
 .navbar-brand img {
-  width: 24px;
+  width: 25px;
 }
 
 .avatar {
@@ -183,5 +196,77 @@ body {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+}
+
+/*SEARCH BUTTON*/
+.searchbar{
+margin-bottom: auto;
+margin-top: auto;
+height: 60px;
+background-color: #e74c3c;
+border-radius: 30px;
+padding: 10px;
+}
+
+.search_input{
+color: white;
+border: 0;
+outline: 0;
+background: none;
+width: 0;
+/* caret-color:transparent; */
+line-height: 40px;
+transition: width 0.4s linear;
+}
+
+.searchbar:hover > .search_input{
+padding: 0 10px;
+width: 250px;
+caret-color:white;
+transition: width 0.4s linear;
+}
+
+.searchbar:hover > .search_icon{
+background: white;
+color: #e74c3c;
+}
+
+.search_icon{
+height: 40px;
+width: 40px;
+float: right;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+color:white;
+text-decoration:none;
+}
+
+.ashImage, .teamRocketImage, .pointerHand:hover{
+  cursor:pointer;
+}
+
+.tradeList img{
+  width:40px;
+}
+
+@media screen and (max-width: 600px) {
+  #teamRocketPanel {
+    margin-top:10%;
   }
 }
