@@ -214,7 +214,7 @@ function calculateTrade(){
 function saveTrade(){
   if(ashTradeList.length>0 && teamRocketTradeList.length>0){
     $.ajax({
-      url: '/saveTrade/',
+      url: '/saveTrade',
       type: 'POST',
       dataType: 'json',
       data: {ashList: ashTradeList, teamRocketList:teamRocketTradeList, fair:fair}
