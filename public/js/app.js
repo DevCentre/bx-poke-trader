@@ -251,8 +251,8 @@ function clearTradeList(){
 }
 
 function formatDate(date) {
-  data = new Date(date+" GMT-0300");
-  // data = new Date(date);
+  // data = new Date(date+" GMT-0300");
+  data = new Date(date);
   var year = data.getFullYear();
 
   var month = (1 + data.getMonth()).toString();
