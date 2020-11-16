@@ -25,6 +25,8 @@ Some of the libraries used in this projects are listed bellow:
 * Bootstrap - the world’s most popular front-end open source toolkit (https://getbootstrap.com/)
 * Intro.js - Step-by-step guide and feature introduction (https://introjs.com/)
 
+The data used in this project (like pokemons, images, stats...) commes 100% from the PokeAPI repository.
+* PokeAPI - The RESTful Pokémon API (https://pokeapi.co/)
 
 ## Demo
 
