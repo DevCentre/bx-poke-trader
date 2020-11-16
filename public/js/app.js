@@ -273,8 +273,8 @@ function formatDate(date) {
 
 function getTradeHistory(){
   $.ajax({
-    url: '/tradeHistory/',
-    type: 'GET',
+    url: '/tradeHistory',
+    type: 'get',
     dataType: 'json'
   })
   .done(function(data) {

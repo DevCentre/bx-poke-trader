@@ -72,7 +72,7 @@
                         <h3 class="panel-title text-center">
                           <button class='btn btn-danger btn-sm pull-left' onclick='clearTradeList()' id='clearButton' style='visibility:hidden'><i class="fas fa-eraser"></i> Clear</button>
                           <img src='img/tradeSimulator.png' style='width:200px;position:sticky;' data-intro='Wellcome to Poketrade!'/>
-                          <button class='btn btn-info btn-sm pull-right' onclick='getTradeHistory()' data-intro='You can search for desired Pokemons here in your Pokedex'><i class='fa fa-history'></i> History</button>
+                          <button class='btn btn-info btn-sm pull-right' onclick='getTradeHistory()'><i class='fa fa-history'></i> History</button>
                         </h3>
                         {{-- <h3 class="panel-title text-center" style='font-family:cursive;'>Trade Simulator</h3> --}}
                     </div>
