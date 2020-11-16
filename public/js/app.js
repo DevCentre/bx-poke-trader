@@ -62,7 +62,7 @@ function AddMoreContent() {
       });
     });
     isActive = false;
-    $('.loadingContent').hide();
+    // $('.loadingContent').hide();
     pageOffset+=12;
     $('[data-toggle="tooltip"]').tooltip();
 }
@@ -123,7 +123,7 @@ function buildTradeList(destiny){
       $(destiny+i+" span").remove();
     }
     $(ashTradeList).each(function(i){
-      $(destiny+i).prepend(`<span class='badge pull-right' onclick='removePokeTrade(".ashPanel",`+i+`)'><i class='fa fa-times'></i></span>`);
+      $(destiny+i).prepend(`<span class='badge pull-right pointerHand' onclick='removePokeTrade(".ashPanel",`+i+`)'><i class='fa fa-times'></i></span>`);
       $(destiny+i+' .panel-body').prepend(`<img src="img/pokemons/`+ashTradeList[i].pokeName+`.png" />`);
     });
   }else{
@@ -132,7 +132,7 @@ function buildTradeList(destiny){
       $(destiny+i+" span").remove();
     }
     $(teamRocketTradeList).each(function(i){
-      $(destiny+i).prepend(`<span class='badge pull-right' onclick='removePokeTrade(".rocketTeamPanel",`+i+`)'><i class='fa fa-times'></i></span>`);
+      $(destiny+i).prepend(`<span class='badge pull-right pointerHand' onclick='removePokeTrade(".rocketTeamPanel",`+i+`)'><i class='fa fa-times'></i></span>`);
       $(destiny+i+' .panel-body').prepend(`<img src="img/pokemons/`+teamRocketTradeList[i].pokeName+`.png" />`);
     });
   }
@@ -155,8 +155,8 @@ function addedSuccess(destiny){
 //Add more content on scroll
 $(window).scroll(function(){
   if(!isActive && $(window).scrollTop() + window.innerHeight == $(document).height()) {
-     isActive = true;
      $('.loadingContent').show();
+     isActive = true;
      AddMoreContent();
   }
 });
